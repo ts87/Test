@@ -1,0 +1,41 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <!--<style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">-->
+        <!--&lt;!&ndash; Customize your theme here. &ndash;&gt;-->
+        <!--<item name="colorPrimary">@color/colorPrimary</item>-->
+        <!--<item name="colorPrimaryDark">@color/colorPrimaryDark</item>-->
+        <!--<item name="colorAccent">@color/colorAccent</item>-->
+    <!--</style>-->
+
+    <style name="AppTheme" parent="@style/AppBaseTheme">
+        <!-- Customize your theme here. -->
+        <!--<item name="android:actionBarStyle">@style/CustomActionBar</item>-->
+        <!--<item name="android:actionMenuTextAppearance">@style/MenuTextStyle</item>-->
+    </style>
+
+    <style name="AppBaseTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/light_blue</item>
+        <item name="colorPrimaryDark">@color/light_blue</item>
+        <item name="colorAccent">@color/light_blue</item>
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowNoTitle">true</item>
+        <!--<item name="android:textColorPrimary">@color/white</item>-->
+        <item name="android:actionBarSize">0dp</item>
+        <!--<item name="android:actionMenuTextAppearance">@style/MenuTextStyle</item>-->
+        <item name="android:actionMenuTextColor">@color/white</item>
+        <item name="android:actionBarStyle">@style/CustomActionBar</item>
+        <item name="android:actionMenuTextAppearance">@style/ActionBarTitle</item>
+    </style>
+
+    <!--Actionbar的样式-->
+    <style name="CustomActionBar" parent="@android:style/Widget.DeviceDefault.ActionBar">
+        <item name="android:titleTextStyle">@style/ActionBarTitle</item>
+    </style>
+
+    <style name="ActionBarTitle" parent="@android:style/TextAppearance.Holo.Large">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+</resources>

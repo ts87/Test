@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">ZiJiXi</string>
+
+    <string name="title_section0">首页</string>
+    <string name="title_section1">订单</string>
+    <string name="title_section2">我的</string>
+</resources>

@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/container"
+    xmlns:wheel="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <!--<include layout="@layout/actionbar" />-->
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@color/light_blue">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textColor="@color/white"
+            android:layout_centerInParent="true"
+            android:text="我的"
+            android:textSize="18sp"
+            android:gravity="center"/>
+    </RelativeLayout>
+
+
+    <com.homework.ts.view.ProgressWheel
+        android:id="@+id/progress_wheel"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="180dp"
+        android:visibility="gone"
+        wheel:matProg_barColor="#4A90E2"
+        wheel:matProg_progressIndeterminate="true" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/item_gray"
+        android:fillViewport="true">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/relative_my_background"
+                android:layout_width="match_parent"
+                android:layout_height="240dp"
+                android:orientation="vertical">
+                <com.homework.ts.view.CircleImageView
+                    android:id="@+id/user_portrait"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_marginTop="40dp"
+                    android:layout_centerHorizontal="true" />
+                <TextView
+                    android:id="@+id/textview_my_phonenumber"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:layout_below="@+id/user_portrait"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="15dp"
+                    android:textSize="20dp"
+                    android:text="18515287587"
+                    android:textColor="@color/white"/>
+
+                <!--android:layout_below="@+id/linear_info1"-->
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:orientation="horizontal"
+                android:background="@color/white">
+                <RelativeLayout
+                    android:id="@+id/fragment_my_relative_money"
+                    android:layout_width="wrap_content"
+                    android:layout_height="80dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/fragment_my_text_money"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="¥0.00"
+                        android:textSize="18dp"
+                        android:layout_marginTop="15dp"
+                        android:textColor="@color/light_blue"
+                        android:layout_centerHorizontal="true" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/fragment_my_text_money"
+                        android:layout_marginTop="10dp"
+                        android:textSize="15dp"
+                        android:layout_centerVertical="true"
+                        android:layout_centerHorizontal="true"
+                        android:text="余额"/>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/fragment_my_relative_quan"
+                    android:layout_width="wrap_content"
+                    android:layout_height="80dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/fragment_my_text_quan"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0张"
+                        android:textSize="18dp"
+                        android:layout_marginTop="15dp"
+                        android:textColor="@color/light_blue"
+                        android:layout_centerHorizontal="true" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/fragment_my_text_quan"
+                        android:layout_marginTop="10dp"
+                        android:textSize="15dp"
+                        android:layout_centerVertical="true"
+                        android:layout_centerHorizontal="true"
+                        android:text="优惠券"
+                        android:id="@+id/textView4" />
+
+                    <View
+                        android:layout_width="1dip"
+                        android:layout_height="80dp"
+                        android:layout_marginTop="15dp"
+                        android:background="@color/Grey"
+                        android:layout_alignBottom="@+id/textView4"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true" />
+                </RelativeLayout>
+            </LinearLayout>
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dip"
+                android:background="@color/Grey" />
+
+            <RelativeLayout
+                android:id="@+id/fragment_my_relative_address"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@color/white"
+                android:layout_marginTop="15dp"
+                android:gravity="center_vertical"
+                android:layout_gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/imageview1"
+                    android:layout_width="5dp"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/ic_square_blue"
+                    android:gravity="center_vertical"
+                    android:layout_alignBottom="@+id/fragment_my_text_address"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true" />
+
+                <TextView
+                    android:id="@+id/fragment_my_text_address"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:layout_marginLeft="10dp"
+                    android:text="常用地址"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/imageview1"
+                    android:layout_toEndOf="@+id/imageview1" />
+
+                <ImageView
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical"
+                    android:background="@drawable/ic_forward_normal"
+                    android:textColor="@color/black"
+                    android:layout_marginRight="10dp"
+                    android:layout_alignBottom="@+id/fragment_my_text_address"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/button_logout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_alignParentBottom="true"
+        android:background="@color/red"
+        android:text="退出登录"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:textSize="18dp"
+        android:visibility="visible" />
+
+    </RelativeLayout>
+</LinearLayout>

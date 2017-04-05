@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <include layout="@layout/actionbar" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/activity_vertical_margin"
+        android:orientation="vertical">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:orientation="horizontal"
+            android:background="@color/white">
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+                <EditText
+                    android:id="@+id/address_edit_city"
+                    android:layout_width="wrap_content"
+                    android:layout_height="45dp"
+                    android:background="@color/white"
+                    android:ems="10"
+                    android:hint="请输入市"
+                    android:inputType="phone"
+                    android:paddingLeft="10dp"
+                    android:singleLine="true" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+                <EditText
+                    android:id="@+id/address_edit_district"
+                    android:layout_width="wrap_content"
+                    android:layout_height="45dp"
+                    android:background="@color/white"
+                    android:ems="10"
+                    android:hint="请输入区"
+                    android:inputType="phone"
+                    android:paddingLeft="10dp"
+                    android:singleLine="true" />
+            </RelativeLayout>
+        </LinearLayout>
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/Grey"></View>
+
+        <EditText
+            android:id="@+id/address_edit_address1"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:background="@color/white"
+            android:ems="10"
+            android:hint="请输入小区名或大厦名"
+            android:paddingLeft="10dp"
+            android:singleLine="true" />
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/Grey"></View>
+
+        <EditText
+            android:id="@+id/address_edit_address2"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:background="@color/white"
+            android:ems="10"
+            android:hint="请输入门牌号等详细地址"
+            android:paddingLeft="10dp"
+            android:singleLine="true" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/Grey"></View>
+
+        <EditText
+            android:id="@+id/address_edit_name"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:background="@color/white"
+            android:ems="10"
+            android:hint="请输入您的姓名"
+            android:paddingLeft="10dp"
+            android:singleLine="true" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/Grey"></View>
+
+        <RadioGroup
+            android:id="@+id/radioGroup"
+            android:contentDescription="性别"
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:layout_marginLeft="5dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/radioFemale"
+                android:text="女士">
+            </RadioButton>
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/radioMale"
+                android:text="男士"
+                android:layout_marginLeft="20dp"
+                android:checked="false">
+            </RadioButton>
+        </RadioGroup>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/Grey"></View>
+
+        <EditText
+            android:id="@+id/address_edit_phone"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:background="@color/white"
+            android:ems="10"
+            android:hint="请输入您的手机号"
+            android:paddingLeft="10dp"
+            android:singleLine="true" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/Grey"></View>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/button_delete_address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_alignParentBottom="true"
+        android:background="@color/red"
+        android:text="删除地址"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:textSize="18dp"
+        android:visibility="visible" />
+    </RelativeLayout>
+</LinearLayout>
