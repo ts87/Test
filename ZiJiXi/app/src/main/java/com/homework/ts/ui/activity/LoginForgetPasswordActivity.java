@@ -20,6 +20,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.homework.ts.util.Constant;
 import com.homework.ts.util.MyCounts;
 import com.homework.ts.util.UtilMethod;
 import com.homework.ts.zijixi.BaseActivity;
@@ -156,6 +160,43 @@ public class LoginForgetPasswordActivity extends BaseActivity {
     @Override
     public void onPause() {
         super.onPause();
+    }
+
+    private void setPassword(String phone, String password,String verCode) {
+        String url = Constant.MY_UTL + "login/modify_use_phone?mobilePhoneNumber=" + phone + "&&ver_code=" + verCode+"&&password="+password;
+
+        JsonObjectRequest jsonObjRequest = new JsonObjectRequest(Request.Method.GET,
+                url, null,
+                new com.android.volley.Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        int resultCode = 0;
+                        try {
+                            resultCode = response.getInt("code");
+                            if(resultCode==1){
+                                showToast("设置成功");
+                                LoginForgetPasswordActivity.this.finish();
+                            }else{
+                                showToast("验证码不正确");
+                            }
+
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            Toast.makeText(getApplicationContext(), "未知错误", Toast.LENGTH_SHORT).show();
+                        }
+
+
+                    }
+                }, new com.android.volley.Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getApplicationContext(), "未知错误", Toast.LENGTH_SHORT).show();
+            }
+        });
+        Constant.queue.add(jsonObjRequest);
     }
 }
 

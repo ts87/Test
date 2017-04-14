@@ -108,7 +108,7 @@ public class MyFragment extends Fragment {
         Bitmap bitmap;
         Bitmap blurBitmap = null;
 
-        bitmap = BitmapFactory.decodeResource(this.getResources(), R.drawable.portrait_gray);//头像
+        bitmap = BitmapFactory.decodeResource(this.getResources(), R.drawable.ali87);//头像
         Bitmap bitmap2 = BitmapFactory.decodeResource(this.getResources(), R.drawable.personal_background_default);
         blurBitmap = PictureUtil.fastblur(bitmap2,10);
 

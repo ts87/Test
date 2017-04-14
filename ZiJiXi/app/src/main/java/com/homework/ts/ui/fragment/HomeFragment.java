@@ -11,9 +11,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 
 import com.homework.ts.adapter.AdScrollImageAdapter;
+import com.homework.ts.ui.activity.ChooseClothesActivity;
 import com.homework.ts.view.MyGallery;
 import com.homework.ts.view.MyListView;
 import com.homework.ts.view.ProgressWheel;
@@ -35,6 +37,8 @@ public class HomeFragment extends Fragment{
     private MyGallery gallery = null;
 //    private ArrayList<Activities> bannerList = new ArrayList<>();
     private SwipeRefreshLayout swipeRefreshLayout;
+
+    private RelativeLayout relative_clothes;
 
     public static HomeFragment newInstance(int sectionNumber) {
         HomeFragment fragment = new HomeFragment();
@@ -61,6 +65,8 @@ public class HomeFragment extends Fragment{
             scrollView = (ScrollView) rootView.findViewById(R.id.scrollView);
 
             gallery = (MyGallery) rootView.findViewById(R.id.banner_gallery);
+
+            relative_clothes = (RelativeLayout) rootView.findViewById(R.id.fragment_home_relative_clothes);
 
             scrollView.smoothScrollTo(0, 20);
 
@@ -104,6 +110,15 @@ public class HomeFragment extends Fragment{
 
 
             gallery.setAdapter(new AdScrollImageAdapter(getActivity(), Constant.adURL));
+
+
+            relative_clothes.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent3 = new Intent(getActivity(), ChooseClothesActivity.class);
+                    startActivity(intent3);
+                }
+            });
 
         }
         return rootView;

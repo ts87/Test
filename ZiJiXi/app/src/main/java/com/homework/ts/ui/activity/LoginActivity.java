@@ -12,6 +12,7 @@ import android.text.Selection;
 import android.text.Spannable;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,13 +23,23 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.gson.Gson;
+import com.homework.ts.model.User;
+import com.homework.ts.util.Constant;
 import com.homework.ts.util.UtilMethod;
 import com.homework.ts.view.CircleImageView;
 import com.homework.ts.zijixi.BaseActivity;
 import com.homework.ts.zijixi.R;
 
+import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by ts on 2017/3/25.
@@ -82,7 +93,7 @@ public class LoginActivity extends BaseActivity {
                         Toast.makeText(getApplicationContext(), "请输入密码", Toast.LENGTH_SHORT).show();
                         return;
                     } else if (UtilMethod.isMobileNO(phone)) {
-//                        phoneLogin(phone, password);
+//                        mobileNumLogin(phone, password);
 
                         //登录！！！！！！！！！
                         finish();
@@ -193,6 +204,73 @@ public class LoginActivity extends BaseActivity {
 //                }
 //            }
 //        }
+    }
+
+    private void mobileNumLogin(String mobilePhoneNumber, final String password) {
+
+        String url = Constant.MY_UTL + "login/login_use_phone?mobilePhoneNumber=" + mobilePhoneNumber + "&&password=" + password;
+        Log.i("LOGIN", url);
+        JsonObjectRequest jsonObjRequest = new JsonObjectRequest(Request.Method.GET,
+                url, null,
+                new com.android.volley.Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+
+                        int result = 0;
+                        try {
+                            result = response.getInt("code");
+                            Log.i("Result", result + "/" + response.toString());
+
+                            if (result == 1) {
+                                JSONObject resultUser = response.getJSONObject("user");
+                                Log.i("Result", resultUser + "");
+                                Gson gson = new Gson();
+                                User user = gson.fromJson(resultUser.toString(), User.class);
+                                User.newInstance(user);
+                                User.getInstance().setIsLogin(true);
+                                Constant.isLogin = true;
+                                saveUserInfo(user);
+                                finish();
+                            } else {
+                                Toast.makeText(getApplicationContext(), response.getString("message"), Toast.LENGTH_SHORT).show();
+                            }
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+
+                    }
+                }, new com.android.volley.Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+            }
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError
+            {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Charset", "UTF-8");
+                headers.put("Content-Type", "application/x-javascript");
+                headers.put("Accept-Encoding", "gzip,deflate");
+                return headers;
+            }
+        };
+        Constant.queue.add(jsonObjRequest);
+    }
+
+    //保存登录的用户基本信息
+    private void saveUserInfo(User user) {
+
+        Gson gson = new Gson();
+        String jsonObject = gson.toJson(user).toString();
+        SharedPreferences sp = getSharedPreferences("userinfo", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString("json", jsonObject);
+        editor.commit();
+
     }
 
 }

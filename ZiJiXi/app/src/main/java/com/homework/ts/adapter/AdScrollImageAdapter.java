@@ -80,7 +80,8 @@ public class AdScrollImageAdapter extends BaseAdapter {
         }
 
         if(imgUrlList.size()==0){//没有广告可以显示
-            viewHolder.imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.placeholder));
+//            viewHolder.imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.placeholder));
+            viewHolder.imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.ali));
         }else{
             ImageLoader.getInstance().displayImage(imgUrlList.get(position % imgUrlList.size()), viewHolder.imageView, options, animateFirstListener);
         }
