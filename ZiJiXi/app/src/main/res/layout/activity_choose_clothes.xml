@@ -8,18 +8,101 @@
 
     <include layout="@layout/actionbar" />
 
-    <GridView
-        android:id="@+id/gridView1"
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:stretchMode="columnWidth"
-        android:verticalSpacing="5dp"
-        android:horizontalSpacing="10dp"
-        android:columnWidth="70dp"
-        android:numColumns="3" >
-        <!--android:numColumns="auto_fit"-->
-    </GridView>
+        android:layout_marginBottom="40dp"
+        android:fillViewport="true">
+
+        <GridView
+            android:id="@+id/gridView1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:stretchMode="columnWidth"
+            android:verticalSpacing="5dp"
+            android:horizontalSpacing="10dp"
+            android:columnWidth="70dp"
+            android:numColumns="3" >
+            <!--android:numColumns="auto_fit"-->
+        </GridView>
+
+    </ScrollView>
+
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="5dp">
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dip"
+                android:layout_gravity="center_vertical|center"
+                android:background="@color/Grey" />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginLeft="150dp"
+                android:layout_marginTop="5dp"
+                >
+
+            <LinearLayout
+                android:id="@+id/linearlayout_estimated_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/red"
+                    android:text="预估价格¥"/>
+                <TextView
+                    android:id="@+id/clothes_estimated_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/red"
+                    android:textSize="18dp"
+                    android:text="0.00"/>
+            </LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="不含运费"
+                    android:textColor="@color/text_gray"
+                    />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/choose_clothes_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:background="@color/light_blue"
+                android:text="预约取件"
+                android:textStyle="bold"
+                android:textColor="@color/white"/>
+        </RelativeLayout>
+        <!--<Button-->
+            <!--android:id="@+id/button_sign_up"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="bottom"-->
+            <!--android:layout_alignParentBottom="true"-->
+            <!--android:background="@color/light_blue"-->
+            <!--android:text="报名"-->
+            <!--android:textColor="@color/white"-->
+            <!--android:textStyle="bold"-->
+            <!--android:visibility="visible" />-->
+
+    </RelativeLayout>
 
 </LinearLayout>

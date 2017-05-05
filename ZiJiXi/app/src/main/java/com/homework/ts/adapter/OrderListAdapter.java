@@ -1,6 +1,7 @@
 package com.homework.ts.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,7 @@ import java.util.List;
 
 public class OrderListAdapter extends BaseAdapter {
 
+    private String TAG = "OrderListAdapter";
     private List<OrderBrief> ordersList;
     private Context context;
     private DisplayImageOptions options;
@@ -88,8 +90,12 @@ public class OrderListAdapter extends BaseAdapter {
             holder.button.setText(ordersList.get(position).getButtonText());
         }
 
-
-
+        holder.button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i(TAG,"click button~~~");
+            }
+        });
         return view;
     }
 

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,7 @@ import com.homework.ts.model.Address;
 import com.homework.ts.model.OrderBrief;
 import com.homework.ts.ui.activity.AddressDetailActivity;
 import com.homework.ts.ui.activity.AddressListActivity;
+import com.homework.ts.ui.activity.OrderDetailActivity;
 import com.homework.ts.view.CircleImageView;
 import com.homework.ts.view.MyListView;
 import com.homework.ts.view.ProgressWheel;
@@ -81,14 +83,24 @@ public class OrderFragment extends Fragment{
     }
 
     public void initView(View rootView){
+        Log.i(TAG,"initView");
 
         progressWheel = (ProgressWheel) rootView.findViewById(R.id.progress_wheel);
         textview_tipc = (TextView) rootView.findViewById(R.id.textview_tipc);
         mListView = (ListView) rootView.findViewById(R.id.listview_orders);
+
+
+        getOrders();
+
+        adapter = new OrderListAdapter(getActivity(), ordersList);
+        mListView.setAdapter(adapter);
+
+
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                Intent intent = new Intent(getActivity(), AddressDetailActivity.class);
+                Log.i(TAG,"click"+position);
+                Intent intent = new Intent(getActivity(), OrderDetailActivity.class);
 //                Bundle bundle = new Bundle();
 //                bundle.putString("name", allAddressesList.get(position).getName());
 //                bundle.putString("city", allAddressesList.get(position).getCity());
@@ -99,7 +111,7 @@ public class OrderFragment extends Fragment{
 //                bundle.putInt("sex",allAddressesList.get(position).getSex());
 //                bundle.putInt("fromwhere",1);
 //                intent.putExtras(bundle);
-//                startActivity(intent);
+                startActivity(intent);
 
             }
         });
@@ -118,7 +130,7 @@ public class OrderFragment extends Fragment{
 
                     @Override
                     public void run() {
-                        ordersList = new ArrayList<>();
+//                        ordersList = new ArrayList<>();
                         isRefresh = true;
 //                        getActivities(count, 1);//!!!!!!!!!!!!!!!!!
                         swipeRefreshLayout.setRefreshing(false);
@@ -128,12 +140,6 @@ public class OrderFragment extends Fragment{
         });
 
         dataCount = load_num;
-
-        getOrders();
-
-
-        adapter = new OrderListAdapter(getActivity(), ordersList);
-        mListView.setAdapter(adapter);
     }
 
     public void getOrders(){

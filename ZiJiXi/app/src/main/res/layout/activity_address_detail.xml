@@ -28,33 +28,42 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:orientation="horizontal">
-                <EditText
-                    android:id="@+id/address_edit_city"
-                    android:layout_width="wrap_content"
+                <!--<EditText-->
+                    <!--android:id="@+id/address_edit_city"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="45dp"-->
+                    <!--android:background="@color/white"-->
+                    <!--android:ems="10"-->
+                    <!--android:hint="请输入市"-->
+                    <!--android:paddingLeft="10dp"-->
+                    <!--android:singleLine="true" />-->
+
+                <Spinner android:id="@+id/spinner_city"
+                    android:layout_width="fill_parent"
                     android:layout_height="45dp"
-                    android:background="@color/white"
-                    android:ems="10"
-                    android:hint="请输入市"
-                    android:inputType="phone"
-                    android:paddingLeft="10dp"
-                    android:singleLine="true" />
+                    ></Spinner>
             </RelativeLayout>
+
+
 
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:orientation="horizontal">
-                <EditText
-                    android:id="@+id/address_edit_district"
-                    android:layout_width="wrap_content"
+                <!--<EditText-->
+                    <!--android:id="@+id/address_edit_district"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="45dp"-->
+                    <!--android:background="@color/white"-->
+                    <!--android:ems="10"-->
+                    <!--android:hint="请输入区"-->
+                    <!--android:paddingLeft="10dp"-->
+                    <!--android:singleLine="true" />-->
+                <Spinner android:id="@+id/spinner_district"
+                    android:layout_width="fill_parent"
                     android:layout_height="45dp"
-                    android:background="@color/white"
-                    android:ems="10"
-                    android:hint="请输入区"
-                    android:inputType="phone"
-                    android:paddingLeft="10dp"
-                    android:singleLine="true" />
+                    ></Spinner>
             </RelativeLayout>
         </LinearLayout>
 

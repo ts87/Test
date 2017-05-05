@@ -16,6 +16,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.homework.ts.listener.AnimateFirstDisplayListener;
+import com.homework.ts.model.User;
 import com.homework.ts.ui.activity.AddressListActivity;
 import com.homework.ts.ui.activity.LoginActivity;
 import com.homework.ts.ui.activity.RegisterActivity;
@@ -45,25 +46,10 @@ public class MyFragment extends Fragment {
     private static final String IMAGE_FILE_NAME = "faceImage.jpg";
 //    String filename = Environment.getExternalStorageDirectory().toString()+ File.separator+"oxcoder/image/";
     /*UI*/
-    private TextView mTextView;
-    private MyListView mListView;//列表
-    private ImageView ivSetting;
-    private CircleImageView mImageView;//头像
-
-    /*列表的适配器*/
-//    private MySetAdapter adapter;
-    private List<HashMap<String, String>> list = null;
-    private List<HashMap<String, String>> listData;
-    private List<String> groupkey = new ArrayList<String>();
-
-    private String srcPath;
-
-    Map<String, String> params = new HashMap<String, String>();
-
 
     private RelativeLayout linearBackground;
     private CircleImageView imagePortrait;
-    private TextView textPhoneNumber;
+    public static TextView textPhoneNumber;
     private TextView textMoney;
     private TextView textQuan;
     private RelativeLayout relativeMoney;
@@ -87,8 +73,6 @@ public class MyFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-//        adapter = new MySetAdapter(getActivity(), initData(), groupkey);
 
     }
 
@@ -151,9 +135,14 @@ public class MyFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), AddressListActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putInt("fromwhere",0);
+                intent.putExtras(bundle);
                 startActivity(intent);
             }
         });
+
+        textPhoneNumber.setText(User.getInstance().getMobile());
 
 
     }

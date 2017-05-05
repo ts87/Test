@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.homework.ts.listener.AnimateFirstDisplayListener;
@@ -15,6 +16,8 @@ import com.homework.ts.zijixi.R;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
+
+import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -70,6 +73,8 @@ public class ClothesGridAdapter extends BaseAdapter {
             holder.mTextViewName = (TextView) view.findViewById(R.id.clothes_name);
             holder.mTextViewPrice = (TextView) view.findViewById(R.id.clothes_price);
             holder.mTextViewImage = (ImageView)view.findViewById(R.id.clothes_image);
+            holder.mTextViewNumber = (TextView) view.findViewById(R.id.text_clothes_number);
+            holder.mLayoutNumber = (LinearLayout) view.findViewById(R.id.linear_number);
 
             view.setTag(holder);
         } else {
@@ -81,13 +86,39 @@ public class ClothesGridAdapter extends BaseAdapter {
 //            holder.mTextViewPhone.setText("none");
 //            holder.mTextViewDetail.setText("none");
         }else{
-            holder.mTextViewName.setText(clothesList.get(position).getClothesName());
-            holder.mTextViewPrice.setText(clothesList.get(position).getClothesPrice());
-            holder.mTextViewImage.setImageDrawable(context.getResources().getDrawable(R.drawable.clothes));
+            holder.mTextViewName.setText(clothesList.get(position).getName());
+            if(clothesList.get(position).getPrice1() == 0){
+                holder.mTextViewPrice.setText("¥25.00");
+            }else{
+                holder.mTextViewPrice.setText("¥"+ clothesList.get(position).getPrice1());
+            }
+            if(clothesList.get(position).getCategory_id() == 1){//衣服
+                holder.mTextViewImage.setImageDrawable(context.getResources().getDrawable(R.drawable.clothes));
+            }else if(clothesList.get(position).getCategory_id() == 2) {//鞋
+                holder.mTextViewImage.setImageDrawable(context.getResources().getDrawable(R.drawable.shoes));
+            }else if(clothesList.get(position).getCategory_id() == 3) {//窗帘
+                holder.mTextViewImage.setImageDrawable(context.getResources().getDrawable(R.drawable.chuanglian));
+            }else if(clothesList.get(position).getCategory_id() == 4) {//家纺
+                holder.mTextViewImage.setImageDrawable(context.getResources().getDrawable(R.drawable.jiafang));
+            }
+
+            if(clothesList.get(position).getNumber() == 0){
+                holder.mLayoutNumber.setVisibility(View.INVISIBLE);
+            }else{
+                holder.mLayoutNumber.setVisibility(View.VISIBLE);
+                holder.mTextViewNumber.setText(String.valueOf(clothesList.get(position).getNumber()));
+            }
 
 //            ImageLoader.getInstance().displayImage(clothesList.get(position).getClothesImage(), holder.mTextViewImage, options, animateFirstListener);
 
         }
+
+//        holder.mTextViewImage.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                holder.mTextViewNumber.setVisibility(View.VISIBLE);
+//            }
+//        });
 
 
 
@@ -95,7 +126,8 @@ public class ClothesGridAdapter extends BaseAdapter {
     }
 
     class ViewHolder{
-        TextView mTextViewName,mTextViewPrice;
+        TextView mTextViewName,mTextViewPrice,mTextViewNumber;
         ImageView mTextViewImage;
+        LinearLayout mLayoutNumber;
     }
 }

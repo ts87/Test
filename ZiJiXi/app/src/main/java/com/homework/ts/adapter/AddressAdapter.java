@@ -83,9 +83,9 @@ public class AddressAdapter extends BaseAdapter {
 //            holder.mTextViewDetail.setText("none");
         }else{
             holder.mTextViewName.setText(addressesList.get(position).getName());
-            holder.mTextViewPhone.setText(addressesList.get(position).getPhone());
-            holder.mTextViewDetail.setText(addressesList.get(position).getCity() + addressesList.get(position).getDistrict() +
-                    addressesList.get(position).getAddress1()+" "+addressesList.get(position).getAddress2());
+            holder.mTextViewPhone.setText(addressesList.get(position).getTel());
+            holder.mTextViewDetail.setText(addressesList.get(position).getCity() + addressesList.get(position).getRegion() +
+                    addressesList.get(position).getCommunity()+" "+addressesList.get(position).getHouse_number());
 
         }
 

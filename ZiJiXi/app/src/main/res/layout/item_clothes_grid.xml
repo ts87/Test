@@ -4,11 +4,38 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
+    <RelativeLayout
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <LinearLayout
+        android:id="@+id/linear_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minWidth="20dp"
+        android:background="@drawable/round_corner_background"
+        android:gravity="center"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true">
+        <TextView
+            android:id="@+id/text_clothes_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:textSize="14dp"
+            android:text="0"
+            />
+    </LinearLayout>
+    </RelativeLayout>
+
     <ImageView
         android:id="@+id/clothes_image"
         android:layout_gravity="center"
         android:layout_width="120dp"
-        android:layout_height="200dp"
+        android:layout_height="160dp"
         android:src="@drawable/clothes" />
 
     <TextView

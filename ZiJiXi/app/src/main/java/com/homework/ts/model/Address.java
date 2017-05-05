@@ -5,30 +5,33 @@ package com.homework.ts.model;
  */
 
 public class Address {
+    private int id;
     private String name;
-    private String phone;
+    private String tel;
     private String city;
-    private String district;
-    private String address1;
-    private String address2;
-    private int sex; //0-女， 1-男
+    private String region;//区
+    private String community;//小区或大厦名
+    private String house_number;//门牌号
+    private String sex;
+    private double lng;//经度
+    private double lat;//纬度
 
     public Address(String name, String phone, String city, String district, String address1, String address2){
         this.name = name;
-        this.phone = phone;
+        this.tel = phone;
         this.city = city;
-        this.district = district;
-        this.address1 = address1;
-        this.address2 = address2;
+        this.region = district;
+        this.community = address1;
+        this.house_number = address2;
     }
 
-    public Address(String name, String phone, String city, String district, String address1, String address2, int sex){
+    public Address(String name, String phone, String city, String district, String address1, String address2, String sex){
         this.name = name;
-        this.phone = phone;
+        this.tel = phone;
         this.city = city;
-        this.district = district;
-        this.address1 = address1;
-        this.address2 = address2;
+        this.region = district;
+        this.community = address1;
+        this.house_number = address2;
         this.sex = sex;
     }
 
@@ -40,28 +43,52 @@ public class Address {
         this.name = name;
     }
 
-    public String getPhone() {
-        return phone;
+    public String getRegion() {
+        return region;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setRegion(String region) {
+        this.region = region;
     }
 
-    public String getAddress1() {
-        return address1;
+    public String getCommunity() {
+        return community;
     }
 
-    public void setAddress1(String address1) {
-        this.address1 = address1;
+    public void setCommunity(String community) {
+        this.community = community;
     }
 
-    public String getAddress2() {
-        return address2;
+    public String getHouse_number() {
+        return house_number;
     }
 
-    public void setAddress2(String address2) {
-        this.address2 = address2;
+    public void setHouse_number(String house_number) {
+        this.house_number = house_number;
+    }
+
+    public String getTel() {
+        return tel;
+    }
+
+    public void setTel(String tel) {
+        this.tel = tel;
+    }
+
+    public double getLng() {
+        return lng;
+    }
+
+    public void setLng(double lng) {
+        this.lng = lng;
+    }
+
+    public double getLat() {
+        return lat;
+    }
+
+    public void setLat(double lat) {
+        this.lat = lat;
     }
 
     public String getCity() {
@@ -72,19 +99,19 @@ public class Address {
         this.city = city;
     }
 
-    public String getDistrict() {
-        return district;
+    public int getId() {
+        return id;
     }
 
-    public void setDistrict(String district) {
-        this.district = district;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public int getSex() {
+    public String getSex() {
         return sex;
     }
 
-    public void setSex(int sex) {
+    public void setSex(String sex) {
         this.sex = sex;
     }
 }

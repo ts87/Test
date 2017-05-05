@@ -25,10 +25,18 @@ import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.JsonRequest;
+import com.android.volley.toolbox.Volley;
+import com.baidu.location.BDLocationListener;
+import com.baidu.location.LocationClient;
+import com.baidu.location.LocationClientOption;
 import com.google.gson.Gson;
 import com.homework.ts.model.User;
+import com.homework.ts.ui.fragment.MyFragment;
 import com.homework.ts.util.Constant;
 import com.homework.ts.util.UtilMethod;
 import com.homework.ts.view.CircleImageView;
@@ -75,9 +83,9 @@ public class LoginActivity extends BaseActivity {
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
-                case R.id.button:
+                case R.id.login_button:
                     final String phone = editTextPhone.getText().toString();
-                    String password = editTextPhone.getText().toString();
+                    String password = editTextPsw.getText().toString();
 
                     if (password.isEmpty() || password.equals("null") || password == null) {
                         isPassword = false;
@@ -93,10 +101,9 @@ public class LoginActivity extends BaseActivity {
                         Toast.makeText(getApplicationContext(), "请输入密码", Toast.LENGTH_SHORT).show();
                         return;
                     } else if (UtilMethod.isMobileNO(phone)) {
-//                        mobileNumLogin(phone, password);
-
+                        login(editTextPhone.getText().toString(),editTextPsw.getText().toString());
                         //登录！！！！！！！！！
-                        finish();
+//                        finish();
                         return;
                     } else {
                         Toast.makeText(getApplicationContext(), "请输入正确的账号", Toast.LENGTH_SHORT).show();
@@ -206,60 +213,6 @@ public class LoginActivity extends BaseActivity {
 //        }
     }
 
-    private void mobileNumLogin(String mobilePhoneNumber, final String password) {
-
-        String url = Constant.MY_UTL + "login/login_use_phone?mobilePhoneNumber=" + mobilePhoneNumber + "&&password=" + password;
-        Log.i("LOGIN", url);
-        JsonObjectRequest jsonObjRequest = new JsonObjectRequest(Request.Method.GET,
-                url, null,
-                new com.android.volley.Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-
-                        int result = 0;
-                        try {
-                            result = response.getInt("code");
-                            Log.i("Result", result + "/" + response.toString());
-
-                            if (result == 1) {
-                                JSONObject resultUser = response.getJSONObject("user");
-                                Log.i("Result", resultUser + "");
-                                Gson gson = new Gson();
-                                User user = gson.fromJson(resultUser.toString(), User.class);
-                                User.newInstance(user);
-                                User.getInstance().setIsLogin(true);
-                                Constant.isLogin = true;
-                                saveUserInfo(user);
-                                finish();
-                            } else {
-                                Toast.makeText(getApplicationContext(), response.getString("message"), Toast.LENGTH_SHORT).show();
-                            }
-
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
-
-                    }
-                }, new com.android.volley.Response.ErrorListener() {
-
-            @Override
-            public void onErrorResponse(VolleyError error) {
-            }
-        }){
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError
-            {
-                Map<String, String> headers = new HashMap<>();
-                headers.put("Charset", "UTF-8");
-                headers.put("Content-Type", "application/x-javascript");
-                headers.put("Accept-Encoding", "gzip,deflate");
-                return headers;
-            }
-        };
-        Constant.queue.add(jsonObjRequest);
-    }
 
     //保存登录的用户基本信息
     private void saveUserInfo(User user) {
@@ -271,6 +224,81 @@ public class LoginActivity extends BaseActivity {
         editor.putString("json", jsonObject);
         editor.commit();
 
+    }
+
+    private void login(final String mobileNum, final String password){
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+        String httpurl = Constant.MY_UTL + "users/login";
+
+        Log.i(TAG,"mobile="+mobileNum+"  password="+password);
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("encrypted_password",password);
+        params.put("mobile", mobileNum);
+        params.put("email",mobileNum+"@qq.com");
+        params.put("name", "ts");
+        JSONObject jsonObject = new JSONObject(params);
+        JsonRequest<JSONObject> jsonRequest = new JsonObjectRequest(Request.Method.POST, httpurl, jsonObject,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.d(TAG, "response -> " + response.toString());
+
+                        String result = null;
+                        try {
+                            result = response.getString("status");
+                            Log.i("Result", response.toString() + "//" + password);
+
+
+                            if (result.equals("200")) {
+                                Toast.makeText(getApplicationContext(), "登录成功", Toast.LENGTH_SHORT).show();
+
+                                JSONObject resultUser = response.getJSONObject("data");
+                                Log.i("Result", resultUser + "");
+                                Gson gson = new Gson();
+                                User user = gson.fromJson(resultUser.toString(), User.class);
+                                User.newInstance(user);
+                                User.getInstance().setIsLogin(true);
+                                Constant.isLogin = true;
+                                saveUserInfo(user);
+
+                                MyFragment.textPhoneNumber.setText(mobileNum);
+                                finish();
+                            }
+
+                            if (result.equals("555")) {
+                                String message = response.getString("message");
+                                if (message.equals("wrong")){
+                                    Toast.makeText(getApplicationContext(), "密码错误", Toast.LENGTH_SHORT).show();
+                                }else{
+                                    Toast.makeText(getApplicationContext(), "登录失败", Toast.LENGTH_SHORT).show();
+
+                                }
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            Toast.makeText(getApplicationContext(), "未知错误", Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e(TAG, error.getMessage(), error);
+                Toast.makeText(getApplicationContext(), "未知错误", Toast.LENGTH_SHORT).show();
+            }
+        })
+        {
+            @Override
+            public Map<String, String> getHeaders() {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Accept", "application/json");
+                headers.put("Content-Type", "application/json; charset=UTF-8");
+
+                return headers;
+            }
+        };
+        requestQueue.add(jsonRequest);
     }
 
 }

@@ -12,9 +12,14 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.android.volley.Request;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.gson.Gson;
 import com.homework.ts.adapter.AddressAdapter;
 import com.homework.ts.model.Address;
+import com.homework.ts.model.User;
+import com.homework.ts.util.Constant;
 import com.homework.ts.view.ProgressWheel;
 import com.homework.ts.zijixi.BaseActivity;
 import com.homework.ts.zijixi.R;
@@ -36,13 +41,14 @@ public class AddressListActivity extends BaseActivity {
     private SwipeRefreshLayout swipeRefreshLayout;
     private ListView mListView;
 
-    private AddressAdapter adapter;
+    public static AddressAdapter adapter;
 
     private LinearLayout container;
 
     private int lastItemIndex;
     private int dataCount, count;
     private int load_num = 100;
+    private int fromwhere;
 
     private boolean isRefresh = false;
 
@@ -51,7 +57,7 @@ public class AddressListActivity extends BaseActivity {
     private TextView textview_tipc;
     private Button addAddressBtn;
 
-    private ArrayList<Address> allAddressesList = new ArrayList<>();
+//    private ArrayList<Address> allAddressesList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,19 +73,23 @@ public class AddressListActivity extends BaseActivity {
         textview_tipc = (TextView) findViewById(R.id.textview_tipc);
         addAddressBtn = (Button) findViewById(R.id.button_add_address);
 
+        fromwhere = getIntent().getIntExtra("fromwhere",0);
+
         mListView = (ListView) findViewById(R.id.listview_addresses);
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(AddressListActivity.this, AddressDetailActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putString("name", allAddressesList.get(position).getName());
-                bundle.putString("city", allAddressesList.get(position).getCity());
-                bundle.putString("district", allAddressesList.get(position).getDistrict());
-                bundle.putString("phone", allAddressesList.get(position).getPhone());
-                bundle.putString("address1", allAddressesList.get(position).getAddress1());
-                bundle.putString("address2", allAddressesList.get(position).getAddress2());
-                bundle.putInt("sex",allAddressesList.get(position).getSex());
+                bundle.putInt("position",position);
+                bundle.putInt("id",Constant.allAddressesList.get(position).getId());
+                bundle.putString("name", Constant.allAddressesList.get(position).getName());
+                bundle.putString("city", Constant.allAddressesList.get(position).getCity());
+                bundle.putString("district", Constant.allAddressesList.get(position).getRegion());
+                bundle.putString("phone", Constant.allAddressesList.get(position).getTel());
+                bundle.putString("address1", Constant.allAddressesList.get(position).getCommunity());
+                bundle.putString("address2", Constant.allAddressesList.get(position).getHouse_number());
+                bundle.putString("sex",Constant.allAddressesList.get(position).getSex());
                 bundle.putInt("fromwhere",1);
                 intent.putExtras(bundle);
                 startActivity(intent);
@@ -101,7 +111,7 @@ public class AddressListActivity extends BaseActivity {
 
                     @Override
                     public void run() {
-                        allAddressesList = new ArrayList<>();
+//                        Constant.allAddressesList = new ArrayList<>();
                         isRefresh = true;
 //                        getActivities(count, 1);//!!!!!!!!!!!!!!!!!
                         swipeRefreshLayout.setRefreshing(false);
@@ -112,10 +122,18 @@ public class AddressListActivity extends BaseActivity {
 
         dataCount = load_num;
 
-        getAddresses();
+        if(User.getInstance().getId() == 0){
+            progressWheel.setVisibility(View.GONE);
+            textview_tipc.setVisibility(View.VISIBLE);
+            textview_tipc.setText("暂未登录");
+            addAddressBtn.setVisibility(View.GONE);
+        }else{
+            getAddresses();
+            addAddressBtn.setVisibility(View.VISIBLE);
+        }
 
 
-        adapter = new AddressAdapter(AddressListActivity.this, allAddressesList);
+        adapter = new AddressAdapter(AddressListActivity.this, Constant.allAddressesList);
         mListView.setAdapter(adapter);
 
         addAddressBtn.setOnClickListener(new View.OnClickListener() {
@@ -143,15 +161,64 @@ public class AddressListActivity extends BaseActivity {
     }
 
     public void getAddresses(){
-        for(int i=0;i<3; i++) {
-            Address address1 = new Address("ts", "18515287587", "北京市", "海淀区", "上园村3号北京交通大学","学苑公寓6号楼", -1);
-            Address address2 = new Address("ts87", "18520899248", "黑龙江省牡丹江市", "", "", "", 1);
-            allAddressesList.add(address1);
-            allAddressesList.add(address2);
-        }
+//        for(int i=0;i<1; i++) {
+//            Address address1 = new Address("ts", "18515287587", "北京市", "海淀区", "上园村3号北京交通大学","学苑公寓6号楼", "");
+//            Address address2 = new Address("ts87", "18520899248", "黑龙江省牡丹江市", "", "", "", "男");
+//            Constant.allAddressesList.add(address1);
+//            Constant.allAddressesList.add(address2);
+//        }
 
-        progressWheel.setVisibility(View.GONE);
-        mListView.setVisibility(View.VISIBLE);
+
+        String url = Constant.MY_UTL + "addresses/get_user_address.json?user_id=" + User.getInstance().getId();
+
+        Log.i("TAG", url);
+
+        JsonObjectRequest jsonObjRequest = new JsonObjectRequest(Request.Method.GET, url, null,
+                new com.android.volley.Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+
+                        int result = 0;
+                        try {
+                            result = response.getInt("status");
+
+                            Log.i(TAG,   "/" + response.toString());
+
+                            if (result == 200) {
+//                                Constant.activitiesList = new ArrayList<>();
+                                Gson gson = new Gson();
+                                JSONArray jsonArray = response.getJSONArray("user_address");
+
+                                for (int i = 0; i < jsonArray.length(); i++) {
+//                                    JSONObject jo = jsonArray.getJSONObject(i);
+//                                    JSONArray recruit = jo.getJSONArray("recruit_list");
+
+                                    Address address = gson.fromJson(jsonArray.getString(i), Address.class);
+
+                                    Constant.allAddressesList.add(address);
+
+                                }
+
+                                textview_tipc.setVisibility(View.GONE);
+                                progressWheel.setVisibility(View.GONE);
+                                mListView.setVisibility(View.VISIBLE);
+
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            Log.e("Json e", e.getMessage());
+                        }
+
+
+                    }
+                }, new com.android.volley.Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+            }
+        });
+        Constant.queue.add(jsonObjRequest);
+
     }
 
 }

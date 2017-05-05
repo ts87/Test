@@ -29,28 +29,18 @@ public class User {
 
 
 
-    private int user_id = 0;
-    private String user_name = null;
+    private int id = 0;
+    private String mobile;
+    private String email;
+    private String encrypted_password;
+    private String name = null;
     private boolean isLogin = false;
-    private String phone;
+//    private String phone;
 
 
 
-    public int getUser_id() {
-        return user_id;
-    }
 
-    public void setUser_id(int user_id) {
-        this.user_id = user_id;
-    }
 
-    public String getUser_name() {
-        return user_name;
-    }
-
-    public void setUser_name(String user_name) {
-        this.user_name = user_name;
-    }
 
     public boolean isLogin() {
         return isLogin;
@@ -60,11 +50,43 @@ public class User {
         this.isLogin = isLogin;
     }
 
-    public String getPhone() {
-        return phone;
+    public int getId() {
+        return id;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getEncrypted_password() {
+        return encrypted_password;
+    }
+
+    public void setEncrypted_password(String encrypted_password) {
+        this.encrypted_password = encrypted_password;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

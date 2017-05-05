@@ -38,7 +38,7 @@ public class HomeFragment extends Fragment{
 //    private ArrayList<Activities> bannerList = new ArrayList<>();
     private SwipeRefreshLayout swipeRefreshLayout;
 
-    private RelativeLayout relative_clothes;
+    private RelativeLayout relative_clothes, relative_shoes, relative_chuanglian, relative_jiafang;
 
     public static HomeFragment newInstance(int sectionNumber) {
         HomeFragment fragment = new HomeFragment();
@@ -67,6 +67,9 @@ public class HomeFragment extends Fragment{
             gallery = (MyGallery) rootView.findViewById(R.id.banner_gallery);
 
             relative_clothes = (RelativeLayout) rootView.findViewById(R.id.fragment_home_relative_clothes);
+            relative_shoes = (RelativeLayout) rootView.findViewById(R.id.fragment_home_relative_shoes);
+            relative_chuanglian = (RelativeLayout) rootView.findViewById(R.id.fragment_home_relative_chuanglian);
+            relative_jiafang = (RelativeLayout) rootView.findViewById(R.id.fragment_home_relative_jiafang);
 
             scrollView.smoothScrollTo(0, 20);
 
@@ -112,10 +115,46 @@ public class HomeFragment extends Fragment{
             gallery.setAdapter(new AdScrollImageAdapter(getActivity(), Constant.adURL));
 
 
-            relative_clothes.setOnClickListener(new View.OnClickListener() {
+            relative_clothes.setOnClickListener(new View.OnClickListener() {//衣服！！！
                 @Override
                 public void onClick(View v) {
                     Intent intent3 = new Intent(getActivity(), ChooseClothesActivity.class);
+                    Bundle bundle3 = new Bundle();
+                    bundle3.putInt("categoryID",1);
+                    intent3.putExtras(bundle3);
+                    startActivity(intent3);
+                }
+            });
+
+            relative_shoes.setOnClickListener(new View.OnClickListener() {//鞋！！！
+                @Override
+                public void onClick(View v) {
+                    Intent intent3 = new Intent(getActivity(), ChooseClothesActivity.class);
+                    Bundle bundle3 = new Bundle();
+                    bundle3.putInt("categoryID",2);
+                    intent3.putExtras(bundle3);
+                    startActivity(intent3);
+                }
+            });
+
+            relative_chuanglian.setOnClickListener(new View.OnClickListener() {//窗帘！！！
+                @Override
+                public void onClick(View v) {
+                    Intent intent3 = new Intent(getActivity(), ChooseClothesActivity.class);
+                    Bundle bundle3 = new Bundle();
+                    bundle3.putInt("categoryID",3);
+                    intent3.putExtras(bundle3);
+                    startActivity(intent3);
+                }
+            });
+
+            relative_jiafang.setOnClickListener(new View.OnClickListener() {//家纺！！！
+                @Override
+                public void onClick(View v) {
+                    Intent intent3 = new Intent(getActivity(), ChooseClothesActivity.class);
+                    Bundle bundle3 = new Bundle();
+                    bundle3.putInt("categoryID",4);
+                    intent3.putExtras(bundle3);
                     startActivity(intent3);
                 }
             });
