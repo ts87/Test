@@ -116,7 +116,9 @@ public class AddressDetailActivity extends BaseActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 spinnerCityValue = spinnerCityString[position];
                 cityID = spinnerCityID[position];
-                Log.i(TAG,"spinner=="+spinnerCityValue+"//position="+position);
+                Log.i(TAG,"spinner=="+spinnerCityValue+"//position="+position+"//cityID="+cityID);
+
+                getSpinnerDistrict(cityID);
             }
 
             @Override
@@ -487,21 +489,19 @@ public class AddressDetailActivity extends BaseActivity {
 
                                 spinnerCityString = new String[jsonArray.length()];
                                 spinnerCityID = new int[jsonArray.length()];
-//                                spinnerCityString[0] = "选择城市";
-//                                spinnerID[0] = 0;
+
                                 for (int i = 0; i < jsonArray.length(); i++) {
                                     Cities cities = gson.fromJson(jsonArray.getString(i), Cities.class);
                                     Log.i(TAG, "cityContent/" + cities.getId());
-//                                    spinnerString[i + 1] = UtilMethod.decodeUnicode(tags.getContent());
-//                                    spinnerID[i + 1] = tags.getPhone_topic_tag_id();
+
                                     spinnerCityString[i] = cities.getName();
                                     spinnerCityID[i] = cities.getId();
 
-                                    if(cities.getName().equals(city)){
-                                        Log.i(TAG,"cities.getName().equals(city)==="+cities.getId());
-                                        cityID = cities.getId();
-                                        getSpinnerDistrict(cities.getId());
-                                    }
+//                                    if(cities.getName().equals(city)){
+//                                        Log.i(TAG,"cities.getName().equals(city)==="+cities.getId());
+//                                        cityID = cities.getId();
+//                                        getSpinnerDistrict(cities.getId());
+//                                    }
                                 }
 
                                 spinnerCityAdapter = new ArrayAdapter<String>(AddressDetailActivity.this, android.R.layout.simple_spinner_item, spinnerCityString);

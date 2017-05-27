@@ -178,6 +178,8 @@ public class RegisterActivity extends BaseActivity {
         params.put("email",mobileNum+"@qq.com");
         params.put("encrypted_password",password);
         params.put("name", "ts");
+//        params.put("address", Constant.allAddressesList.toString());
+
         JSONObject jsonObject = new JSONObject(params);
         JsonRequest<JSONObject> jsonRequest = new JsonObjectRequest(Request.Method.POST,httpurl, jsonObject,
                 new Response.Listener<JSONObject>() {
@@ -250,7 +252,7 @@ public class RegisterActivity extends BaseActivity {
 
         Log.i(TAG,"mobile="+mobileNum+"  password="+password);
         Map<String, String> params = new HashMap<String, String>();
-        params.put("password",password);
+        params.put("encrypted_password",password);
         params.put("mobile", mobileNum);
         params.put("email",mobileNum+"@qq.com");
         params.put("name", "ts");

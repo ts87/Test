@@ -50,14 +50,12 @@ public class AddressListActivity extends BaseActivity {
     private int load_num = 100;
     private int fromwhere;
 
-    private boolean isRefresh = false;
-
+    private Intent intent;
 
     private ProgressWheel progressWheel;
     private TextView textview_tipc;
     private Button addAddressBtn;
 
-//    private ArrayList<Address> allAddressesList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +67,8 @@ public class AddressListActivity extends BaseActivity {
 
         initToolBar("常用地址");
 
+        intent = getIntent();
+
         progressWheel = (ProgressWheel) findViewById(R.id.progress_wheel);
         textview_tipc = (TextView) findViewById(R.id.textview_tipc);
         addAddressBtn = (Button) findViewById(R.id.button_add_address);
@@ -79,21 +79,32 @@ public class AddressListActivity extends BaseActivity {
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(AddressListActivity.this, AddressDetailActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putInt("position",position);
-                bundle.putInt("id",Constant.allAddressesList.get(position).getId());
-                bundle.putString("name", Constant.allAddressesList.get(position).getName());
-                bundle.putString("city", Constant.allAddressesList.get(position).getCity());
-                bundle.putString("district", Constant.allAddressesList.get(position).getRegion());
-                bundle.putString("phone", Constant.allAddressesList.get(position).getTel());
-                bundle.putString("address1", Constant.allAddressesList.get(position).getCommunity());
-                bundle.putString("address2", Constant.allAddressesList.get(position).getHouse_number());
-                bundle.putString("sex",Constant.allAddressesList.get(position).getSex());
-                bundle.putInt("fromwhere",1);
-                intent.putExtras(bundle);
-                startActivity(intent);
-
+                if(fromwhere == 1){
+                    intent.putExtra("id", Constant.allAddressesList.get(position).getId());
+                    intent.putExtra("name", Constant.allAddressesList.get(position).getName());
+                    intent.putExtra("city", Constant.allAddressesList.get(position).getCity());
+                    intent.putExtra("district", Constant.allAddressesList.get(position).getRegion());
+                    intent.putExtra("phone", Constant.allAddressesList.get(position).getTel());
+                    intent.putExtra("address1", Constant.allAddressesList.get(position).getCommunity());
+                    intent.putExtra("address2", Constant.allAddressesList.get(position).getHouse_number());
+                    setResult(RESULT_OK, intent);
+                    finish();
+                }else{
+                    Intent intent = new Intent(AddressListActivity.this, AddressDetailActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("position",position);
+                    bundle.putInt("id",Constant.allAddressesList.get(position).getId());
+                    bundle.putString("name", Constant.allAddressesList.get(position).getName());
+                    bundle.putString("city", Constant.allAddressesList.get(position).getCity());
+                    bundle.putString("district", Constant.allAddressesList.get(position).getRegion());
+                    bundle.putString("phone", Constant.allAddressesList.get(position).getTel());
+                    bundle.putString("address1", Constant.allAddressesList.get(position).getCommunity());
+                    bundle.putString("address2", Constant.allAddressesList.get(position).getHouse_number());
+                    bundle.putString("sex",Constant.allAddressesList.get(position).getSex());
+                    bundle.putInt("fromwhere",1);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                }
             }
         });
 
@@ -112,7 +123,7 @@ public class AddressListActivity extends BaseActivity {
                     @Override
                     public void run() {
 //                        Constant.allAddressesList = new ArrayList<>();
-                        isRefresh = true;
+//                        isRefresh = true;
 //                        getActivities(count, 1);//!!!!!!!!!!!!!!!!!
                         swipeRefreshLayout.setRefreshing(false);
                     }
@@ -128,6 +139,7 @@ public class AddressListActivity extends BaseActivity {
             textview_tipc.setText("暂未登录");
             addAddressBtn.setVisibility(View.GONE);
         }else{
+            Constant.allAddressesList = new ArrayList<>();
             getAddresses();
             addAddressBtn.setVisibility(View.VISIBLE);
         }
@@ -185,24 +197,21 @@ public class AddressListActivity extends BaseActivity {
                             Log.i(TAG,   "/" + response.toString());
 
                             if (result == 200) {
-//                                Constant.activitiesList = new ArrayList<>();
+//                                Constant.allAddressesList = new ArrayList<>();
                                 Gson gson = new Gson();
                                 JSONArray jsonArray = response.getJSONArray("user_address");
 
                                 for (int i = 0; i < jsonArray.length(); i++) {
-//                                    JSONObject jo = jsonArray.getJSONObject(i);
-//                                    JSONArray recruit = jo.getJSONArray("recruit_list");
-
                                     Address address = gson.fromJson(jsonArray.getString(i), Address.class);
 
                                     Constant.allAddressesList.add(address);
-
                                 }
 
                                 textview_tipc.setVisibility(View.GONE);
                                 progressWheel.setVisibility(View.GONE);
                                 mListView.setVisibility(View.VISIBLE);
 
+                                Log.i(TAG,"testAddressList==//"+Constant.allAddressesList.toString());
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

@@ -96,9 +96,9 @@ public class ClothesGridAdapter extends BaseAdapter {
                 holder.mTextViewImage.setImageDrawable(context.getResources().getDrawable(R.drawable.clothes));
             }else if(clothesList.get(position).getCategory_id() == 2) {//鞋
                 holder.mTextViewImage.setImageDrawable(context.getResources().getDrawable(R.drawable.shoes));
-            }else if(clothesList.get(position).getCategory_id() == 3) {//窗帘
+            }else if(clothesList.get(position).getCategory_id() == 4) {//窗帘
                 holder.mTextViewImage.setImageDrawable(context.getResources().getDrawable(R.drawable.chuanglian));
-            }else if(clothesList.get(position).getCategory_id() == 4) {//家纺
+            }else if(clothesList.get(position).getCategory_id() == 3) {//家纺
                 holder.mTextViewImage.setImageDrawable(context.getResources().getDrawable(R.drawable.jiafang));
             }
 

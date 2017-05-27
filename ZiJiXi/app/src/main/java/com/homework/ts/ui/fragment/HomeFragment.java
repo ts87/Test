@@ -142,7 +142,7 @@ public class HomeFragment extends Fragment{
                 public void onClick(View v) {
                     Intent intent3 = new Intent(getActivity(), ChooseClothesActivity.class);
                     Bundle bundle3 = new Bundle();
-                    bundle3.putInt("categoryID",3);
+                    bundle3.putInt("categoryID",4);
                     intent3.putExtras(bundle3);
                     startActivity(intent3);
                 }
@@ -153,7 +153,7 @@ public class HomeFragment extends Fragment{
                 public void onClick(View v) {
                     Intent intent3 = new Intent(getActivity(), ChooseClothesActivity.class);
                     Bundle bundle3 = new Bundle();
-                    bundle3.putInt("categoryID",4);
+                    bundle3.putInt("categoryID",3);
                     intent3.putExtras(bundle3);
                     startActivity(intent3);
                 }

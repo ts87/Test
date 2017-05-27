@@ -44,6 +44,7 @@ public class ChooseClothesActivity extends BaseActivity {
     private int estimatedPrice = 0;
 
     private GridView gv;
+    String[] product;
 
     private ArrayList<Clothes> clothesList = new ArrayList<>();
 
@@ -92,9 +93,21 @@ public class ChooseClothesActivity extends BaseActivity {
                     showToast("至少要选择一件衣服洗呀～");
                 }else{
                     Intent intent = new Intent(ChooseClothesActivity.this, AppointActivity.class);
-//                Bundle bundle = new Bundle();
-//                bundle.putInt("categoryID",1);
-//                intent.putExtras(bundle);
+
+                    product = new String[clothesList.size()];
+                    int j=0;
+                    for(int i=0; i<clothesList.size(); i++){
+                        if(clothesList.get(i).getNumber() != 0){
+                            product[j] = String.valueOf(clothesList.get(i).getId()) + "#"
+                                    + String.valueOf(clothesList.get(i).getNumber()) + "#"
+                                    + String.valueOf(clothesList.get(i).getPrice1());
+                            j++;
+                        }
+                    }
+                    Bundle bundle = new Bundle();
+                    bundle.putStringArray("product",product);
+                    bundle.putInt("categoryID",categoryID);
+                    intent.putExtras(bundle);
 //                    startActivity(intent);
                     startActivityForResult(intent, 0);
                 }

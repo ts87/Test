@@ -16,17 +16,27 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.android.volley.Request;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.google.gson.Gson;
 import com.homework.ts.adapter.AddressAdapter;
 import com.homework.ts.adapter.OrderListAdapter;
 import com.homework.ts.model.Address;
 import com.homework.ts.model.OrderBrief;
+import com.homework.ts.model.User;
 import com.homework.ts.ui.activity.AddressDetailActivity;
 import com.homework.ts.ui.activity.AddressListActivity;
 import com.homework.ts.ui.activity.OrderDetailActivity;
+import com.homework.ts.util.Constant;
 import com.homework.ts.view.CircleImageView;
 import com.homework.ts.view.MyListView;
 import com.homework.ts.view.ProgressWheel;
 import com.homework.ts.zijixi.R;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -44,7 +54,7 @@ public class OrderFragment extends Fragment{
     private SwipeRefreshLayout swipeRefreshLayout;
     private ListView mListView;
 
-    private OrderListAdapter adapter;
+    public static OrderListAdapter adapter;
 
     private int lastItemIndex;
     private int dataCount, count;
@@ -56,7 +66,7 @@ public class OrderFragment extends Fragment{
     private ProgressWheel progressWheel;
     private TextView textview_tipc;
 
-    private ArrayList<OrderBrief> ordersList = new ArrayList<>();
+    public static ArrayList<OrderBrief> ordersList = new ArrayList<>();
 
     public static OrderFragment newInstance(int sectionNumber) {
         OrderFragment fragment = new OrderFragment();
@@ -90,7 +100,9 @@ public class OrderFragment extends Fragment{
         mListView = (ListView) rootView.findViewById(R.id.listview_orders);
 
 
-        getOrders();
+        if(getActivity() != null){
+            getOrders();
+        }
 
         adapter = new OrderListAdapter(getActivity(), ordersList);
         mListView.setAdapter(adapter);
@@ -101,7 +113,13 @@ public class OrderFragment extends Fragment{
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Log.i(TAG,"click"+position);
                 Intent intent = new Intent(getActivity(), OrderDetailActivity.class);
-//                Bundle bundle = new Bundle();
+
+
+//                bundle.putParcelableArrayList("list", Constant.allOrdersList);
+
+                Bundle bundle = new Bundle();
+                bundle.putParcelable("obj", ordersList.get(position));
+//                bundle.putParcelable("obj", Constant.allOrdersList.get(position));
 //                bundle.putString("name", allAddressesList.get(position).getName());
 //                bundle.putString("city", allAddressesList.get(position).getCity());
 //                bundle.putString("district", allAddressesList.get(position).getDistrict());
@@ -110,7 +128,7 @@ public class OrderFragment extends Fragment{
 //                bundle.putString("address2", allAddressesList.get(position).getAddress2());
 //                bundle.putInt("sex",allAddressesList.get(position).getSex());
 //                bundle.putInt("fromwhere",1);
-//                intent.putExtras(bundle);
+                intent.putExtras(bundle);
                 startActivity(intent);
 
             }
@@ -130,9 +148,10 @@ public class OrderFragment extends Fragment{
 
                     @Override
                     public void run() {
-//                        ordersList = new ArrayList<>();
+                        Constant.allOrdersList = new ArrayList<>();
+                        ordersList.clear();
                         isRefresh = true;
-//                        getActivities(count, 1);//!!!!!!!!!!!!!!!!!
+                        getOrders();
                         swipeRefreshLayout.setRefreshing(false);
                     }
                 }, 3000);
@@ -143,13 +162,54 @@ public class OrderFragment extends Fragment{
     }
 
     public void getOrders(){
-        OrderBrief o1 = new OrderBrief("12345678909876","2017-03-29 14:00-15:00","取件中","T-shirt","支付");
-        OrderBrief o2 = new OrderBrief("98765094828742","2017-04-01 10:00-11:00","已签收","衬衫","评价");
-        ordersList.add(o1);
-        ordersList.add(o2);
 
-        progressWheel.setVisibility(View.GONE);
-        textview_tipc.setVisibility(View.GONE);
-        mListView.setVisibility(View.VISIBLE);
+        String url = Constant.MY_UTL + "orders/get_user_orders.json?user_id=" + User.getInstance().getId();
+
+        Log.i("TAG", url);
+
+        JsonObjectRequest jsonObjRequest = new JsonObjectRequest(Request.Method.GET, url, null,
+                new com.android.volley.Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+
+                        int result = 0;
+                        try {
+                            result = response.getInt("status");
+
+                            Log.i(TAG,   "/" + response.toString());
+
+                            if (result == 200) {
+//                                Constant.allOrdersList = new ArrayList<>();
+                                Gson gson = new Gson();
+                                JSONArray jsonArray = response.getJSONArray("orders");
+
+                                for (int i = 0; i < jsonArray.length(); i++) {
+                                    OrderBrief order = gson.fromJson(jsonArray.getString(i), OrderBrief.class);
+
+                                    ordersList.add(order);
+                                    Constant.allOrdersList.add(order);
+                                }
+
+                                textview_tipc.setVisibility(View.GONE);
+                                progressWheel.setVisibility(View.GONE);
+                                mListView.setVisibility(View.VISIBLE);
+
+                                adapter = new OrderListAdapter(getActivity(), ordersList);
+                                mListView.setAdapter(adapter);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            Log.e("Json e", e.getMessage());
+                        }
+
+
+                    }
+                }, new com.android.volley.Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+            }
+        });
+        Constant.queue.add(jsonObjRequest);
     }
 }

@@ -13,10 +13,15 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.JsonRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.homework.ts.model.Address;
 import com.homework.ts.model.User;
@@ -30,6 +35,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by ts on 2017/5/5.
@@ -47,8 +54,10 @@ public class AppointActivity extends BaseActivity {
     private DatePicker mDatePicker;
     private TimePicker mTimePicker;
     int mYear, mMonth, mDay, mHour, mMinute;
-//    final int DATE_DIALOG = 1;
 
+    private String[] product, productNotNull;
+    private int addressID, categoryID;
+    private String appointTime, remark;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +70,28 @@ public class AppointActivity extends BaseActivity {
         toolbar = initToolBar("预约取件");
 
         intent = getIntent();
+
+        product = intent.getStringArrayExtra("product");
+        categoryID = intent.getIntExtra("categoryID",0);
+
+        int length=0;
+        for(int i=0; i<product.length; i++){
+            Log.i(TAG,"product=="+product[i]);
+            if(product[i]!=null){
+                length++;
+            }
+        }
+
+        productNotNull = new String[length];
+        int j=0;
+        for(int i=0; i<product.length; i++){
+            Log.i(TAG,"product=="+product[i]);
+            if(product[i]!=null){
+                productNotNull[j] = product[i];
+                j++;
+            }
+        }
+
         getAddresses();
         initView();
 
@@ -81,17 +112,6 @@ public class AppointActivity extends BaseActivity {
         mDatePicker = (DatePicker) findViewById(R.id.datePicker);
         mTimePicker = (TimePicker) findViewById(R.id.timePicker);
 
-//        if(addressesList.size() != 0){
-//            addressName.setText(addressesList.get(0).getName());
-//            addressPhone.setText(addressesList.get(0).getTel());
-//            addressDetail.setText(addressesList.get(0).getCity()+addressesList.get(0).getRegion()
-//                    +addressesList.get(0).getCommunity()+addressesList.get(0).getHouse_number());
-//        }else{
-//            addressName.setText("请选择地址");
-//            addressPhone.setText("");
-//            addressDetail.setText("");
-//        }
-
         layoutChooseAddress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -99,7 +119,8 @@ public class AppointActivity extends BaseActivity {
                 Bundle bundle = new Bundle();
                 bundle.putInt("fromwhere",1);
                 intent.putExtras(bundle);
-                startActivity(intent);
+//                startActivity(intent);
+                startActivityForResult(intent, 0);
             }
         });
 
@@ -115,10 +136,16 @@ public class AppointActivity extends BaseActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showToast("预约成功！请等待小e上门确认价格并付款");
-                intent.putExtra("str1", "success");
-                setResult(RESULT_OK, intent);
-                finish();
+                remark = textview_tips.getText().toString();
+                appoint(addressID, appointTime, remark);
+
+                for(int i=0;i<productNotNull.length;i++){
+                    Log.i(TAG,"productTemp=="+productNotNull[i]);
+                }
+//                showToast("预约成功！请等待小e上门确认价格并付款");
+//                intent.putExtra("str1", "success");
+//                setResult(RESULT_OK, intent);
+//                finish();
             }
         });
 
@@ -160,8 +187,28 @@ public class AppointActivity extends BaseActivity {
     }
 
     private void showDate(int year, int month, int day, int hour, int minute){
+        appointTime = year+"-"+month+"-"+day+" "+hour+":"+minute+":00";
         tvGetTime.setText(new StringBuffer().append(year).append("-").append(month + 1).append("-").append(day).append(" ").append(hour).append(":").append(minute));
     }
+
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (resultCode) { //resultCode为回传的标记，我在B中回传的是RESULT_OK
+            case RESULT_OK:
+                Bundle b=data.getExtras(); //data为B中回传的Intent
+                String name = b.getString("name");
+                Log.i(TAG,"传回"+name);
+                addressID = b.getInt("id");
+                addressName.setText(b.getString("name"));
+                addressPhone.setText(b.getString("phone"));
+                addressDetail.setText(b.getString("city")+b.getString("district")+b.getString("address1")+b.getString("address1"));
+//                finish();
+                break;
+            default:
+                break;
+        }
+    }
+
 
     public void getAddresses(){
         String url = Constant.MY_UTL + "addresses/get_user_address.json?user_id=" + User.getInstance().getId();
@@ -185,8 +232,6 @@ public class AppointActivity extends BaseActivity {
 
                                 for (int i = 0; i < jsonArray.length(); i++) {
                                     Address address = gson.fromJson(jsonArray.getString(i), Address.class);
-
-//                                    Constant.allAddressesList.add(address);
                                     addressesList.add(address);
 
                                 }
@@ -196,6 +241,8 @@ public class AppointActivity extends BaseActivity {
                                     addressPhone.setText(addressesList.get(0).getTel());
                                     addressDetail.setText(addressesList.get(0).getCity()+addressesList.get(0).getRegion()
                                             +addressesList.get(0).getCommunity()+addressesList.get(0).getHouse_number());
+
+                                    addressID = addressesList.get(0).getId();
                                 }else{
                                     addressName.setText("请选择地址");
                                     addressPhone.setText("");
@@ -222,5 +269,83 @@ public class AppointActivity extends BaseActivity {
         });
         Constant.queue.add(jsonObjRequest);
 
+    }
+
+
+    private void appoint(final int addressID, final String time, final String remark){
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+        String httpurl = Constant.MY_UTL + "orders/create_order.json";
+//        Map<String, Object> params = new HashMap<>();
+//        params.put("user_id", User.getInstance().getId());
+//        params.put("address_id", addressID);
+//        params.put("product",productNotNull);
+//        params.put("time",time);
+//        params.put("category_id", categoryID);
+
+        String productString="[";
+        for(int i=0; i<productNotNull.length;i++){
+            if(i != productNotNull.length-1){
+                productString += "\"" + productNotNull[i]+"\",";
+            }else{
+                productString += "\"" + productNotNull[i]+"\"]";
+            }
+        }
+        Log.i(TAG,"productString=="+productString);
+        Map<String, String> params = new HashMap<>();
+        params.put("user_id", String.valueOf(User.getInstance().getId()));
+        params.put("address_id", String.valueOf(addressID));
+        params.put("product",productString);
+        params.put("time",time);
+        params.put("category_id", String.valueOf(categoryID));
+
+//        params.put("remark", remark);
+
+
+        Log.i(TAG,"userid="+User.getInstance().getId()+"//addressID="+addressID+"//product="+productNotNull+"//time="+time+"//categoryID="+categoryID);
+
+        JSONObject jsonObject = new JSONObject(params);
+        JsonRequest<JSONObject> jsonRequest = new JsonObjectRequest(Request.Method.POST,httpurl, jsonObject,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.d(TAG, "response -> " + response.toString());
+
+                        String result = null;
+                        try {
+                            result = response.getString("status");
+                            Log.i("Result", response.toString() + "//" );
+
+                            if(result.equals("200")){
+                                showToast("预约成功！请等待小e上门确认价格并付款");
+                                intent.putExtra("str1", "success");
+                                setResult(RESULT_OK, intent);
+                                finish();
+                            }
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            Toast.makeText(getApplicationContext(), "未知错误", Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e(TAG, error.getMessage(), error);
+                Toast.makeText(getApplicationContext(), "未知错误", Toast.LENGTH_SHORT).show();
+            }
+        })
+        {
+            @Override
+            public Map<String, String> getHeaders() {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Accept", "application/json");
+                headers.put("Content-Type", "application/json; charset=UTF-8");
+
+                return headers;
+            }
+        };
+        requestQueue.add(jsonRequest);
     }
 }

@@ -78,7 +78,6 @@
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:background="@color/white"
-            android:ems="10"
             android:hint="请输入小区名或大厦名"
             android:paddingLeft="10dp"
             android:singleLine="true" />
@@ -94,7 +93,6 @@
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:background="@color/white"
-            android:ems="10"
             android:hint="请输入门牌号等详细地址"
             android:paddingLeft="10dp"
             android:singleLine="true" />
@@ -109,7 +107,6 @@
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:background="@color/white"
-            android:ems="10"
             android:hint="请输入您的姓名"
             android:paddingLeft="10dp"
             android:singleLine="true" />

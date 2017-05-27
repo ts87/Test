@@ -333,51 +333,68 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:text="颜色"
+                            android:text="数量"
                             android:layout_centerHorizontal="true"/>
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:text="瑕疵"
-                            android:layout_centerHorizontal="true"/>
-                    </LinearLayout>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:orientation="horizontal"
-                        android:padding="5dp"
-                        android:layout_marginLeft="15dp">
-
-                        <TextView
-                            android:id="@+id/textview_clothes_name"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:text="T恤"
-                            android:layout_gravity="center_horizontal"
-                            />
-
-                        <TextView
-                            android:id="@+id/textview_clothes_color"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:text="黑色"
-                            android:layout_centerHorizontal="true"/>
-
-                        <TextView
-                            android:id="@+id/textview_clothes_fault"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:text="不明污渍"
+                            android:text="价格"
                             android:layout_centerHorizontal="true"/>
                     </LinearLayout>
+                    </LinearLayout>
+
+                    <!--<LinearLayout-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_marginTop="5dp"-->
+                        <!--android:orientation="horizontal"-->
+                        <!--android:padding="5dp"-->
+                        <!--android:layout_marginLeft="15dp">-->
+
+                        <!--<TextView-->
+                            <!--android:id="@+id/textview_clothes_name"-->
+                            <!--android:layout_width="wrap_content"-->
+                            <!--android:layout_height="match_parent"-->
+                            <!--android:layout_weight="1"-->
+                            <!--android:text="T恤"-->
+                            <!--android:layout_gravity="center_horizontal"-->
+                            <!--/>-->
+
+                        <!--<TextView-->
+                            <!--android:id="@+id/textview_clothes_number"-->
+                            <!--android:layout_width="wrap_content"-->
+                            <!--android:layout_height="match_parent"-->
+                            <!--android:layout_weight="1"-->
+                            <!--android:text="2"-->
+                            <!--android:layout_centerHorizontal="true"/>-->
+
+                        <!--<TextView-->
+                            <!--android:id="@+id/textview_clothes_color"-->
+                            <!--android:layout_width="wrap_content"-->
+                            <!--android:layout_height="match_parent"-->
+                            <!--android:layout_weight="1"-->
+                            <!--android:text="黑色"-->
+                            <!--android:layout_centerHorizontal="true"/>-->
+
+                        <!--<TextView-->
+                            <!--android:id="@+id/textview_clothes_fault"-->
+                            <!--android:layout_width="wrap_content"-->
+                            <!--android:layout_height="match_parent"-->
+                            <!--android:layout_weight="1"-->
+                            <!--android:text="不明污渍"-->
+                            <!--android:layout_centerHorizontal="true"/>-->
+                    <!--</LinearLayout>-->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+                            <com.homework.ts.view.MyListView
+                                android:id="@+id/list_clothes_info"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+                            </com.homework.ts.view.MyListView>
+                        </LinearLayout>
                 </LinearLayout>
 
 
@@ -477,61 +494,61 @@
                         </RelativeLayout>
                     </LinearLayout>
 
-                    <View
-                        android:layout_width="380dp"
-                        android:layout_marginTop="5dp"
-                        android:layout_height="1dip"
-                        android:layout_gravity="center_vertical|center"
-                        android:background="@color/Grey" />
+                    <!--<View-->
+                        <!--android:layout_width="380dp"-->
+                        <!--android:layout_marginTop="5dp"-->
+                        <!--android:layout_height="1dip"-->
+                        <!--android:layout_gravity="center_vertical|center"-->
+                        <!--android:background="@color/Grey" />-->
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@color/white"
-                        android:gravity="center"
-                        android:orientation="vertical">
+                    <!--<LinearLayout-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:background="@color/white"-->
+                        <!--android:gravity="center"-->
+                        <!--android:orientation="vertical">-->
 
-                        <TextView
-                            android:id="@+id/textview_pay_list"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="实付款费用清单"
-                            android:layout_marginLeft="15dp"/>
+                        <!--<TextView-->
+                            <!--android:id="@+id/textview_pay_list"-->
+                            <!--android:layout_width="match_parent"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:text="实付款费用清单"-->
+                            <!--android:layout_marginLeft="15dp"/>-->
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:padding="5dp"
-                            android:layout_marginLeft="15dp">
+                        <!--<LinearLayout-->
+                            <!--android:layout_width="match_parent"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:orientation="horizontal"-->
+                            <!--android:padding="5dp"-->
+                            <!--android:layout_marginLeft="15dp">-->
 
-                            <TextView
-                                android:id="@+id/textview_pay_clothes_name"
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1"
-                                android:text="T恤"
-                                android:layout_gravity="center_horizontal"
-                                />
+                            <!--<TextView-->
+                                <!--android:id="@+id/textview_pay_clothes_name"-->
+                                <!--android:layout_width="wrap_content"-->
+                                <!--android:layout_height="match_parent"-->
+                                <!--android:layout_weight="1"-->
+                                <!--android:text="T恤"-->
+                                <!--android:layout_gravity="center_horizontal"-->
+                                <!--/>-->
 
-                            <TextView
-                                android:id="@+id/textview_pay_price"
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1"
-                                android:text="22.50元"
-                                android:layout_centerHorizontal="true"/>
+                            <!--<TextView-->
+                                <!--android:id="@+id/textview_pay_price"-->
+                                <!--android:layout_width="wrap_content"-->
+                                <!--android:layout_height="match_parent"-->
+                                <!--android:layout_weight="1"-->
+                                <!--android:text="22.50元"-->
+                                <!--android:layout_centerHorizontal="true"/>-->
 
-                            <TextView
-                                android:id="@+id/textview_pay_clothes_number"
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1"
-                                android:text="x1"
-                                android:layout_centerHorizontal="true"/>
-                        </LinearLayout>
+                            <!--<TextView-->
+                                <!--android:id="@+id/textview_pay_clothes_number"-->
+                                <!--android:layout_width="wrap_content"-->
+                                <!--android:layout_height="match_parent"-->
+                                <!--android:layout_weight="1"-->
+                                <!--android:text="x1"-->
+                                <!--android:layout_centerHorizontal="true"/>-->
+                        <!--</LinearLayout>-->
 
-                    </LinearLayout>
+                    <!--</LinearLayout>-->
 
                 </LinearLayout>
 
